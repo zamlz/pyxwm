@@ -1,8 +1,4 @@
 
-from collections import namedtuple
-
-KeyFunc = namedtuple('KeyFunc', ['op', 'args', 'kwargs'])
-
 class KeyFunc(object):
 
     def __init__(self, op, args=[], kwargs={}):
