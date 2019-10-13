@@ -1,9 +1,7 @@
 
 # This is a test file that shouldn't be really used.
 
-import xwm
+from xwm import WindowManager
 
-print("Was good fam")
-
-while True:
-    pass
+sess = WindowManager()
+sess.run()
