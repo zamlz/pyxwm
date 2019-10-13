@@ -3,12 +3,7 @@
 
 import subprocess
 from xwm.core.session import XwmSession
-from xwm.commons import KeyBinder, KeyFunc
-
-process_map = {
-    'terminal':
-    "launcher":
-}
+from xwm.commons.keybinder import KeyBinder, KeyFunc
 
 # Every function that is added as a keybind must take a session as the first
 # positional argument. You are allowed to have other arguments after that
@@ -50,9 +45,9 @@ def close_session(sess):
 # Configure the keybinder object
 kb = KeyBinder(modifier='Alt')
 kb['left'] = KeyFunc(move_window, args=['left', 4])
-kb['right'] = KeyFunc(move_window, args=['right', 4]
-kb['up'] = KeyFunc(move_window, args=['up', 4]
-kb['down'] = KeyFunc(move_window, args=['down', 4]
+kb['right'] = KeyFunc(move_window, args=['right', 4])
+kb['up'] = KeyFunc(move_window, args=['up', 4])
+kb['down'] = KeyFunc(move_window, args=['down', 4])
 kb['t'] = KeyFunc(start_process, args=["/usr/bin/urxvt"])
 kb['e'] = KeyFunc(start_process, args=["/usr/bin/rofi", "-show", "run"])
 kb['x'] = KeyFunc(destroy_window)

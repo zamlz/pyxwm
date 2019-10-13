@@ -84,11 +84,11 @@ class XwmSession(object):
 
     def add_keybinds(self, kb):
         self.keybinds = {}
-        mod = X,Mod1Mask
+        mod = X.Mod1Mask
         for key, v in kb.items():
             # Modifier is hardcoded in instead being taken from KeyBinder
             code = self.display.keysym_to_keycode(str_to_keysym[key])
-            self.root.grab_key(code, mod, 1, X.GrabModeAsync, X.GrabModeAsync))
+            self.root.grab_key(code, mod, 1, X.GrabModeAsync, X.GrabModeAsync)
             self.keybinds[code] = kb[key]
 
     def handle_key_press(self):
