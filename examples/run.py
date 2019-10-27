@@ -18,6 +18,7 @@ sess = XwmSession(winman=winman)
 # Add the keybinds to the session
 sess.add_keybinds(kb)
 
+# Add some functions to the session loop
 sess.onloop(winman.update_focus_hover)
 sess.onloop(winman.window_update_serial)
 
