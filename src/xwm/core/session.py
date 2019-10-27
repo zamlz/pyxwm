@@ -3,7 +3,7 @@ import time
 from Xlib import X, XK
 from Xlib.display import Display
 
-from xwm.commons.winman import WindowManager
+from xwm.commons.window_manager import WindowManager
 from xwm.core.keys import str_to_keysym
 
 # This WM takes full utilization of single thread.

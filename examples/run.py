@@ -3,21 +3,17 @@
 
 import subprocess
 from xwm.core.session import XwmSession
-from xwm.core.window_managers import WindowManager
+from xwm.commons.window_manager import WindowManager
 from xwm.commons.keybinder import KeyBinder, KeyFunc
 
 # Window manager object
-winman = WindowManager(display=display)
+winman = WindowManager()
 
 # Create our session object
 sess = XwmSession(winman=winman)
 
-sess.onloop(winman.update_focus)
+sess.onloop(winman.update_focus_hover)
 sess.onloop(winman.window_update_serial)
-
-# Every function that is added as a keybind must take a session as the first
-# positional argument. You are allowed to have other arguments after that
-# however.
 
 def move_window(direction, delta):
     try:
