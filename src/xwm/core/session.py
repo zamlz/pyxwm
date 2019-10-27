@@ -87,7 +87,7 @@ class XwmSession(object):
 
     def handle_key_press(self):
         try:
-            self.keybinds[self.current_event.detail](self)
+            self.keybinds[self.current_event.detail]()
         except KeyError:
             print("unable to process key press")
         except:

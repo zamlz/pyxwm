@@ -38,7 +38,7 @@ def destroy_window():
     except:
         print("no focused window")
 
-def start_process(sess, *proc):
+def start_process(*proc):
     try:
         subprocess.Popen(*proc)
     except:
