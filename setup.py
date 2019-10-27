@@ -7,7 +7,7 @@ with open('requirements.txt', 'r') as req_file:
 setup(
     name='pyxwm',
     version='0.0.1',
-    description='Python X Window Manager',
+    description='Python Extendible Window Manager',
     author='Amlesh Sivanantham',
     author_email='samlesh@gmail.com',
     package_dir={'': 'src'},

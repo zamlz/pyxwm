@@ -1,5 +1,5 @@
-Python X Window Manager
-=======================
+Python Extendible Window Manager (pyxwm)
+========================================
 
 Setup
 -----
