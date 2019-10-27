@@ -1,7 +1,6 @@
 
-# This is a test file that shouldn't be really used.
-
 import subprocess
+
 from xwm.core.session import XwmSession
 from xwm.commons.window_manager import WindowManager
 from xwm.commons.keybinder import KeyBinder
@@ -13,16 +12,15 @@ winman = WindowManager()
 kb = KeyBinder(modifier='Alt')
 
 # Create our session object
-sess = XwmSession(winman=winman)
-
-# Add the keybinds to the session
-sess.add_keybinds(kb)
+sess = XwmSession(winman=winman, keybinder=kb)
 
 # Add some functions to the session loop
 sess.onloop(winman.update_focus_hover)
 sess.onloop(winman.window_update_serial)
 
 # Create functions and bind them to the keybinder
+# The decorator doesn't actually decorate the function but adds it to the
+# keybinder dictionary. This means you can stack keybinds and parameterize it.
 
 @kb.bind('left', args=['left', 4])
 @kb.bind('right', args=['right', 4])
