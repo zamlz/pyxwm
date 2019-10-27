@@ -48,10 +48,10 @@ $ pip install -e .
 ### Writing the Window Manager Script
 
 Now you'll need to write a python script that uses this package. Luckily we
-have a test script thats already available as `examples/run.py`. To set this
-up, you'll need to figure out how you can enable other window managers.
+have a test script thats already available as `examples/run.py`. Details of
+how to write your own python script is available in the wiki (To be updated).
 
-### Running the Window Manager
+### Running the Window Manager (via StartX)
 
 If you use the program startx, you can edit your `xinitrc` file to have the
 following line at the very end. Essentially we will be starting a python
