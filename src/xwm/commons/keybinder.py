@@ -18,3 +18,9 @@ class KeyBinder(dict):
     def __setitem__(self, key, item):
         assert type(item) is KeyFunc, "Must be type {}".format(KeyFunc)
         super(KeyBinder, self).__setitem__(key, item)
+
+    def bind(self, key, args=[], kwargs={}):
+        def func_binder(method):
+            self[key] = KeyFunc(method, args, kwargs)
+            return method
+        return func_binder
