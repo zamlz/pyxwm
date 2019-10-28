@@ -1,8 +1,9 @@
 
 import time
 from Xlib import X, XK
-from Xlib.display import Display, colormap
+from Xlib.display import Display
 
+from xwm.commons.window_manager import WindowManager
 from xwm.core.keys import str_to_keysym
 
 # This WM takes full utilization of single thread.
@@ -16,43 +17,38 @@ REFRESH_RATE=0.01
 
 class XwmSession(object):
 
-    def __init__(self):
+    def __init__(self, winman=WindowManager()):
 
-        self.window_list = []
+        self.winman = winman
+        self.current_event = None
 
         self.display = Display()
-        self.colormap = self.display.screen().default_colormap
         self.root = self.display.screen().root
         self.width = self.root.get_geometry().width
         self.height = self.root.get_geometry().height
-
-        self.current_event = None
-        self.active_window = None
-
         self.root.change_attributes(event_mask=X.SubstructureRedirectMask)
+
+        self.startup_ops = []
+        self.loop_ops = [self.handle_events]
+
+    def startup(self, method):
+        self.startup_ops.append(method)
+        return method
+
+    def onloop(self, method):
+        self.loop_ops.append(method)
+        return method
 
     def run(self):
         try:
+            for func in self.startup_ops:
+                func()
             while True:
-                self.update_focus()
-                map(self.window_update, self.window_list)
-                self.handle_events()
                 time.sleep(REFRESH_RATE)
+                for func in self.loop_ops:
+                    func()
         except KeyboardInterrupt:
             self.close_display()
-
-    def update_focus(self):
-        # Primitive focus method that focuses whatever is on the pointer
-        window = self.display.screen().root.query_pointer().child
-        if window != 0:
-            self.active_window = window
-
-    def window_update(self, window):
-        border = "#ffffff" if window is self.active_window else "#000000"
-        border_color = self.colormap.alloc_named_color(border).pixel
-        window.configure(border_width=4)
-        window.change_attributes(None, border_pixel=border_color)
-        self.display.sync()
 
     def handle_events(self):
         # handle events
@@ -76,11 +72,9 @@ class XwmSession(object):
             pass
 
     def handle_map(self):
-        # I'm guessing this maps a new window perhaps?
-        self.window_list.append(self.current_event.window)
-        self.active_window = self.current_event.window
-        self.active_window_name = self.current_event.window.get_wm_name()
-        self.current_event.window.map()
+        window = self.current_event.window
+        self.winman.spawn(window, window.get_wm_name(), active=True)
+        window.map()
 
     def add_keybinds(self, kb):
         self.keybinds = {}
@@ -93,7 +87,7 @@ class XwmSession(object):
 
     def handle_key_press(self):
         try:
-            self.keybinds[self.current_event.detail](self)
+            self.keybinds[self.current_event.detail]()
         except KeyError:
             print("unable to process key press")
         except:

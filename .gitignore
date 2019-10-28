@@ -1,5 +1,2 @@
 __pycache__/
 *.egg-info/
-
-# Test file
-src/run.py

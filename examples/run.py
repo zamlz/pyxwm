@@ -3,15 +3,21 @@
 
 import subprocess
 from xwm.core.session import XwmSession
+from xwm.commons.window_manager import WindowManager
 from xwm.commons.keybinder import KeyBinder, KeyFunc
 
-# Every function that is added as a keybind must take a session as the first
-# positional argument. You are allowed to have other arguments after that
-# however.
+# Window manager object
+winman = WindowManager()
 
-def move_window(sess, direction, delta):
+# Create our session object
+sess = XwmSession(winman=winman)
+
+sess.onloop(winman.update_focus_hover)
+sess.onloop(winman.window_update_serial)
+
+def move_window(direction, delta):
     try:
-        w = sess.active_window
+        w = winman.active_window
         if direction is "left":
             w.configure(x = w.get_geometry().x - delta)
         if direction is "right":
@@ -25,15 +31,14 @@ def move_window(sess, direction, delta):
     except AttributeError:
         print("no focused window")
 
-def destroy_window(sess):
+def destroy_window():
     try:
-        sess.active_window.destroy()
-        sess.window_list.remove(sess.active_window)
-        sess.active_window = None
+        winman.active_window.destroy()
+        winman.update_active(None)
     except:
         print("no focused window")
 
-def start_process(sess, *proc):
+def start_process(*proc):
     try:
         subprocess.Popen(*proc)
     except:
@@ -52,9 +57,6 @@ kb['t'] = KeyFunc(start_process, args=["/usr/bin/urxvt"])
 kb['e'] = KeyFunc(start_process, args=["/usr/bin/rofi", "-show", "run"])
 kb['x'] = KeyFunc(destroy_window)
 kb['escape'] = KeyFunc(close_session)
-
-# Create our session object
-sess = XwmSession()
 
 # Add the keybinds to the session
 sess.add_keybinds(kb)

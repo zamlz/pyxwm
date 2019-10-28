@@ -6,8 +6,8 @@ class KeyFunc(object):
         self._args = args
         self._kwargs = kwargs
 
-    def __call__(self, sess):
-        return self._op(sess, *self._args, **self._kwargs)
+    def __call__(self):
+        return self._op(*self._args, **self._kwargs)
 
 
 class KeyBinder(dict):
