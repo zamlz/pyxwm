@@ -1,11 +1,16 @@
 
+import logging
 import subprocess
 
 from xwm.core.session import XwmSession
 from xwm.commons.window_manager import WindowManager
 from xwm.commons.keybinder import KeyBinder
+from xwm.utils import dev_logging
+
+dev_logging('xwm', filename='xwm.logs')
 
 # Window manager object
+# Feasibility of keeping an Electrical Bike in poor (wet) storage conditions
 winman = WindowManager()
 
 # Configure the keybinder object
