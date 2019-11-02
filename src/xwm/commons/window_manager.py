@@ -6,10 +6,15 @@ TODO:
 """
 
 from Xlib.display import Display
+import logging
+
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 class WindowManager(object):
 
     def __init__(self):
+        logger.info("initializing window manager")
         self._window_list = []
         self._active_window = None
         self._active_name = ''
@@ -19,8 +24,9 @@ class WindowManager(object):
         self.colormap = self.display.screen().default_colormap
 
     def update_active(self, window, name=''):
+        logger.info(f"Setting active window: {window} {name}")
         if window not in self._window_list and window is not None:
-            print("Trying to set a window as active that isn't in list")
+            logger.error("Trying to set a window as active that isn't in list")
         else:
             self._active_window = window
             self._active_name = name
@@ -30,10 +36,12 @@ class WindowManager(object):
         return self._active_window, self._active_name
 
     def update_focus(self, window, name=''):
+        logger.debug(f"Updating focus to window: {window} {name}")
         if window != 0:
             self.update_active(window, name)
 
     def update_focus_hover(self):
+        logger.debug(f"Updating focus to hovered window")
         self.update_focus(self.display.screen().root.query_pointer().child)
 
     def window_update_serial(self):
@@ -52,6 +60,7 @@ class WindowManager(object):
         self.display.sync()
 
     def spawn(self, window, name, active=False):
+        logger.info(f"Spawning new window: {window} {name}")
         self._window_list.append(window)
         if active is True:
             self.update_active(window)
