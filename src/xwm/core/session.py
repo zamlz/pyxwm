@@ -58,6 +58,9 @@ class XwmSession(object):
         except KeyboardInterrupt:
             logger.info("Keyboard interrupt receieved, closing the display")
             self.close_display()
+        except Exception:
+            logger.exception("Unkown exception has occured")
+            self.close_display()
 
     def _handle_events(self):
         # handle events
@@ -67,7 +70,7 @@ class XwmSession(object):
             return
 
         self.current_event = self.display.next_event()
-        logger.info(f"Handling event {event}")
+        logger.info(f"Handling event {self.current_event}")
 
         if self.current_event.type == X.MapRequest:
             self._handle_map()

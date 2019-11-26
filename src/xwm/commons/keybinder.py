@@ -26,8 +26,7 @@ class KeyBinder(dict):
 
     def bind(self, key, args=[], kwargs={}):
         def func_binder(method):
-            logger.info((f"Binding {key} to {method} with args = {args}"
-                         f" and kwargs = {kwargs}"))
+            logger.info(f"Binding {key} to {method} with {args} {kwargs}")
             self[key] = KeyFunc(method, args, kwargs)
             return method
         return func_binder

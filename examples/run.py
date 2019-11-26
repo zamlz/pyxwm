@@ -7,7 +7,7 @@ from xwm.commons.window_manager import WindowManager
 from xwm.commons.keybinder import KeyBinder
 from xwm.utils import dev_logging
 
-dev_logging('xwm', filename='xwm.logs')
+dev_logging('xwm', filename='xwm.logs', console=True, log_level='DEBUG')
 
 # Window manager object
 # Feasibility of keeping an Electrical Bike in poor (wet) storage conditions
