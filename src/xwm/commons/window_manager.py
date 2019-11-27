@@ -69,7 +69,7 @@ class WindowManager(object):
         self._window_list.append(window)
         logger.debug(self._window_list)
         if active is True:
-            self.update_active(window)
+            self.update_active(window, name)
         return window
 
 
