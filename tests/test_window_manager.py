@@ -16,7 +16,6 @@ def test_update_active():
     wm.update_active(3, name='three')
     assert wm.active == (3, 'three')
 
-
 def test__spawn_window():
     """
     Tests: WindowManager.spawn
