@@ -24,10 +24,12 @@ class WindowManager(object):
         self.colormap = self.display.screen().default_colormap
 
     def update_active(self, window, name=''):
-        logger.info(f"Setting active window: {window} {name}")
         if window not in self._window_list and window is not None:
             logger.error("Trying to set a window as active that isn't in list")
+        elif window is self._active_window:
+            logger.debug("Window is already active. Doing nothing.")
         else:
+            logger.info(f"Setting active window: {window} {name}")
             self._active_window = window
             self._active_name = name
 
@@ -42,7 +44,9 @@ class WindowManager(object):
 
     def update_focus_hover(self):
         logger.debug(f"Updating focus to hovered window")
-        self.update_focus(self.display.screen().root.query_pointer().child)
+        window = self.display.screen().root.query_pointer().child
+        logger.debug("WINDOW: " + repr(window))
+        self.update_focus(window)
 
     def window_update_serial(self):
         for window in self._window_list:
@@ -61,9 +65,11 @@ class WindowManager(object):
 
     def spawn(self, window, name, active=False):
         logger.info(f"Spawning new window: {window} {name}")
+        logger.debug(self._window_list)
         self._window_list.append(window)
+        logger.debug(self._window_list)
         if active is True:
-            self.update_active(window)
+            self.update_active(window, name)
         return window
 
 
